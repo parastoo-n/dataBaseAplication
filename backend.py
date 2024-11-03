@@ -31,11 +31,24 @@ def search(title="",author="",year="",isnb=""):
     conn.close()
     return rows
 
+def delete(id):
+    conn = sqlite3.connect("books.db")
+    cur = conn.cursor()
+    cur.execute("DELETE FROM book WHERE id=?", (id,))
+    conn.commit()
+    conn.close()
 
-
+def update(id,title,author,year,isnb):
+    conn = sqlite3.connect("books.db")
+    cur = conn.cursor()
+    cur.execute("UPDATE book SET title=? , author=? , year=? , isbn=? WHERE id=?", (title,author,year,isnb,id))
+    conn.commit()
+    conn.close()
+    
 connect()
 # insert("python ebook","mohammad",2015,2565)
-insert("csharp","sara",2015,2565)
+# insert("csharp","sara",2015,2565)
 # print(view())
-print(search(author="sara"))
-   
+# print(search(author="sara"))
+# delete(2)
+update(1,"new book title","new author name",2020,56458)

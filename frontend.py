@@ -12,7 +12,7 @@ def fill_list(books):
 
 
 window =  Tk()
-
+window.title("Book Store")
 #labels
 l1 = Label(window,text="Title")
 l1.grid(row=0,column=0)
@@ -60,9 +60,23 @@ sb1.configure(command=list1.yview)
 
 def get_selected_row(event):
     global selected_book
-    index = list1.curselection()[0]
-    selected_book = list1.get(index)
-    # return selected_book
+    if len(list1.curselection()) > 0:
+        index = list1.curselection()[0]
+        selected_book = list1.get(index)
+        # return selected_book
+        #title
+        e1.delete(0,END)
+        e1.insert(END,selected_book[1])
+        #author
+        e2.delete(0,END)
+        e2.insert(END,selected_book[2])
+        #year
+        e3.delete(0,END)
+        e3.insert(END,selected_book[3])
+        #isbn
+        e4.delete(0,END)
+        e4.insert(END,selected_book[4])    
+
     
 
 
@@ -97,13 +111,17 @@ def add_command():
 b3 = Button(window,text="Add Entry",width=12, command=lambda: add_command())
 b3.grid(row=4,column=3)
 
-b4 = Button(window,text="Update Selected",width=12)
+def update_command():
+    backend.update(selected_book[0],title_text.get(),author_text.get(),year_text.get(),isbn_text.get())
+    view_command()
+
+b4 = Button(window,text="Update Selected",width=12,command=update_command)
 b4.grid(row=5,column=3)
 
 
 
 def delete_command():
-    # selectedbook = get_selected_row()
+    # selectedbook = get_selected_row(),
     backend.delete(selected_book[0])
     view_command()
 
@@ -113,7 +131,8 @@ def delete_command():
 b5 = Button(window,text="Delete Selected",width=12,command=delete_command)
 b5.grid(row=6,column=3)
 
-b6 = Button(window,text="Close",width=12)
+
+b6 = Button(window,text="Close",width=12,command=window.destroy)
 b6.grid(row=7,column=3)
 
 
